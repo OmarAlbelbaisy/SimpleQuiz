@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">اختبار قصير</string>
+    <string name="counter">%1$d \\ %2$d</string>
+    <string name="question">السؤال</string>
+    <string name="start">ابدأ</string>
+    <string name="confirm">تأكيد</string>
+    <string name="next">التالي</string>
+    <string name="finish">إنهاء</string>
+    <string name="result_label">النتيجة</string>
+    <string name="quiz_result">&lt;sup&gt;%1$d&lt;/sup&gt;\\&lt;sub&gt;%2$d&lt;/sub&gt;</string>
+    <string name="no_answer_selected">لم يتم تحديد أي إجابة!</string>
+</resources>

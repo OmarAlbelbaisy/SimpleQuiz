@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="header_font_size">20sp</dimen>
+    <dimen name="header_bottom_height">30dp</dimen>
+    <dimen name="padding_normal">12dp</dimen>
+
+</resources>

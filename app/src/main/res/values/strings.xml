@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Simple Quiz</string>
+    <string name="counter">%1$d / %2$d</string>
+    <string name="question">Question</string>
+    <string name="start">Start</string>
+    <string name="confirm">Confirm</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="result_label">Result</string>
+    <string name="quiz_result">&lt;sup&gt;%d&lt;/sup&gt;/&lt;sub&gt;%d&lt;/sub&gt;</string>
+    <string name="no_answer_selected">No answer selected !</string>
+</resources>

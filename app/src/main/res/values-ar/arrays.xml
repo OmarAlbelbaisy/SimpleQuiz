@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="questions">
+        <item>ما هو نظام التشغيل الأكثر انتشارا في العالم ؟</item>
+        <item>ما هي لغة البرمجة التي نستخدمها لبرمجة تطبيقات أندرويد ؟</item>
+        <item>ما هي بيئة التطوير الرسمية المستخدمة في تطوير تطبيقات أندرويد ؟</item>
+        <item>ما هو إسم الشركة المطورة لنظام أندرويد ؟</item>
+        <item>ما هو آخر إصدار من نظام أندرويد ؟</item>
+    </string-array>
+
+    <array name="answers">
+        <item>@array/question_1_answers</item>
+        <item>@array/question_2_answers</item>
+        <item>@array/question_3_answers</item>
+        <item>@array/question_4_answers</item>
+        <item>@array/question_5_answers</item>
+    </array>
+
+    <string-array name="correctAnswers">
+        <item>أندرويد</item>
+        <item>جافا</item>
+        <item>أندرويد ستوديو</item>
+        <item>جوجل</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="question_1_answers">
+        <item>iOS</item>
+        <item>أندرويد</item>
+        <item>ويندوز فون</item>
+    </string-array>
+
+    <string-array name="question_2_answers">
+        <item>بايثون</item>
+        <item>جافاسكريبت</item>
+        <item>جافا</item>
+    </string-array>
+
+    <string-array name="question_3_answers">
+        <item>بيئة تطوير أندرويد المتكاملة</item>
+        <item>أندرويد ستوديو</item>
+        <item>إيكلبس</item>
+    </string-array>
+
+    <string-array name="question_4_answers">
+        <item>فيسبوك</item>
+        <item>يوداستي</item>
+        <item>جوجل</item>
+    </string-array>
+
+    <string-array name="question_5_answers">
+        <item>Pie</item>
+        <item>10</item>
+        <item>Oreo</item>
+    </string-array>
+
+</resources>

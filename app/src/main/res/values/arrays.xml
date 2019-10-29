@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="questions">
+        <item>What is the most popular mobile OS in the world ?</item>
+        <item>What programming language we use to develop Android apps ?</item>
+        <item>What is the official IDE for Android development ?</item>
+        <item>What is the name of the company that develop Android platform ?</item>
+        <item>What is the latest version of Android ?</item>
+    </string-array>
+
+    <array name="answers">
+        <item>@array/question_1_answers</item>
+        <item>@array/question_2_answers</item>
+        <item>@array/question_3_answers</item>
+        <item>@array/question_4_answers</item>
+        <item>@array/question_5_answers</item>
+    </array>
+
+    <string-array name="correctAnswers">
+        <item>Android</item>
+        <item>Java</item>
+        <item>Android Studio</item>
+        <item>Google</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="question_1_answers">
+        <item>iOS</item>
+        <item>Android</item>
+        <item>Windows Phone</item>
+    </string-array>
+
+    <string-array name="question_2_answers">
+        <item>Python</item>
+        <item>JavaScript</item>
+        <item>Java</item>
+    </string-array>
+
+    <string-array name="question_3_answers">
+        <item>Android IDE</item>
+        <item>Android Studio</item>
+        <item>Eclipse</item>
+    </string-array>
+
+    <string-array name="question_4_answers">
+        <item>Facebook</item>
+        <item>Udacity</item>
+        <item>Google</item>
+    </string-array>
+
+    <string-array name="question_5_answers">
+        <item>Pie</item>
+        <item>10</item>
+        <item>Oreo</item>
+    </string-array>
+
+</resources>
