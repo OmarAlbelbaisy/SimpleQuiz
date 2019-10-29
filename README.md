@@ -1,4 +1,4 @@
-## Simple Quiz App
+# Simple Quiz App
 
 This is the repository of the simple multiple choices quiz app built as an example during a lecture about "Building Interactive Apps" for [One Million Arab Coders Initiative](https://www.udacity.com/mena/one-million-arab-coders/en) - Android Track.
 
