@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -21,6 +22,10 @@ import androidx.core.content.ContextCompat;
  * to the next question.
  */
 public class QuestionsActivity extends AppCompatActivity {
+
+    private final String EXTRA_RESULT = "result";
+    private final String EXTRA_COUNTER = "counter";
+    private final String EXTRA_SELECTED_ID = "selected_id";
 
     /**
      * An integer variable to save the total correct answers
@@ -91,9 +96,35 @@ public class QuestionsActivity extends AppCompatActivity {
         // Initialize all needed listeners
         initListener();
 
-        // Show the first question
-        nextQuestion();
+        if (savedInstanceState == null) {
+            // Show the first question
+            nextQuestion();
+        } else {
+            result = savedInstanceState.getInt(EXTRA_RESULT);
+            counter = savedInstanceState.getInt(EXTRA_COUNTER);
+            int selectedRadioButtonId = savedInstanceState.getInt(EXTRA_SELECTED_ID);
+            if (selectedRadioButtonId != -1) {
+                // Restore the question and selection state
+                restoreSelectedAnswer(selectedRadioButtonId);
+            } else {
+                // Restore the question
+                nextQuestion();
+            }
+        }
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(EXTRA_RESULT, result);
+        outState.putInt(EXTRA_COUNTER, counter);
+        // Save current selection if the question already confirmed
+        if (!confirmNextButton.getText().equals(getString(R.string.confirm))) {
+            outState.putInt(EXTRA_SELECTED_ID, answersRadioGroup.getCheckedRadioButtonId());
+        } else {
+            outState.putInt(EXTRA_SELECTED_ID, -1);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     /**
@@ -150,22 +181,48 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     /**
-     * Show the ResultActivity and exist the current activity
+     * This method used to confirm the current answer and save the result.It will also change the
+     * status of the confirmNextButton to next or finish depending on the current question index
      */
-    private void finishQuiz() {
+    private void confirmAnswer() {
 
-        // Create an explicit intent to open the ResultActivity
-        Intent intent = new Intent(this, ResultActivity.class);
+        // Get a reference to the selected radio button
+        RadioButton selectedRadioButton = findViewById(answersRadioGroup.getCheckedRadioButtonId());
 
-        // Pass the result to ResultActivity via Intent
-        intent.putExtra(ResultActivity.EXTRA_RESULT, result);
-        intent.putExtra(ResultActivity.EXTRA_TOTAL, questions.length);
+        // Check if the user select an answer or not
+        if (selectedRadioButton != null) {
+            // Read selected answer string
+            String selectedAnswer = selectedRadioButton.getText().toString();
+            // If the user selected the correct answer
+            if (selectedAnswer.equals(correctAnswers[counter])) {
+                // Indicate the answer was correct by changing background color to green
+                selectedRadioButton.setBackground(correctAnswerTransition);
+                correctAnswerTransition.startTransition(500);
+                // Increase the result
+                result++;
+            } else {
+                // Indicate the answer was wrong by changing background color to red
+                selectedRadioButton.setBackground(wrongAnswerTransition);
+                wrongAnswerTransition.startTransition(500);
+            }
+            // If the current question is the last one in the quiz
+            if (counter == questions.length - 1) {
+                // Change confirmNextButton state to finish
+                confirmNextButton.setText(getString(R.string.finish));
+                confirmNextButton.setOnClickListener(finishClickListener);
+            } else {
+                // Change confirmNextButton state to next
+                confirmNextButton.setText(getString(R.string.next));
+                confirmNextButton.setOnClickListener(nextClickListener);
+            }
 
-        // Open ResultActivity
-        startActivity(intent);
+            // Increase the index to point to next question
+            counter++;
 
-        // Exit current activity
-        finish();
+        } else {
+            // Show a short message to the user to tell him he must select an answer before confirm!
+            Toast.makeText(this, getString(R.string.no_answer_selected), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -201,50 +258,52 @@ public class QuestionsActivity extends AppCompatActivity {
     }
 
     /**
-     * This method used to confirm the current answer and save the result.It will also change the
-     * status of the confirmNextButton to next or finish depending on the current question index
+     * Show the ResultActivity and exist the current activity
      */
-    private void confirmAnswer() {
+    private void finishQuiz() {
 
-        // Get a reference to the selected radio button
-        RadioButton selectedRadioButton = findViewById(answersRadioGroup.getCheckedRadioButtonId());
+        // Create an explicit intent to open the ResultActivity
+        Intent intent = new Intent(this, ResultActivity.class);
 
-        // Check if the user select an answer or not
-        if (selectedRadioButton != null) {
-            // Read selected answer string
-            String selectedAnswer = selectedRadioButton.getText().toString();
-            // If the user selected the correct answer
-            if (selectedAnswer.equals(correctAnswers[counter])) {
-                // Indicate the answer was correct by changing background color to green
-                selectedRadioButton.setBackground(correctAnswerTransition);
-                correctAnswerTransition.startTransition(500);
-                // Increase the result
-                result++;
-            } else {
-                // Indicate the answer was wrong by changing background color to red
-                selectedRadioButton.setBackground(wrongAnswerTransition);
-                correctAnswerTransition.startTransition(500);
-            }
-            // If the current question is the last one in the quiz
-            if (counter == questions.length - 1) {
-                // Change confirmNextButton state to finish
-                confirmNextButton.setText(getString(R.string.finish));
-                confirmNextButton.setOnClickListener(finishClickListener);
-            } else {
-                // Change confirmNextButton state to next
-                confirmNextButton.setText(getString(R.string.next));
-                confirmNextButton.setOnClickListener(nextClickListener);
-            }
+        // Pass the result to ResultActivity via Intent
+        intent.putExtra(ResultActivity.EXTRA_RESULT, result);
+        intent.putExtra(ResultActivity.EXTRA_TOTAL, questions.length);
 
-            // Increase the index to point to next question
-            counter++;
+        // Open ResultActivity
+        startActivity(intent);
 
-        } else {
-            // Show a short message to the user to tell him he must select an answer before confirm!
-            Toast.makeText(this, getString(R.string.no_answer_selected), Toast.LENGTH_SHORT).show();
-        }
+        // Exit current activity
+        finish();
 
     }
 
+    /**
+     * Restore selected answer after configuration changes
+     *
+     * @param selectedRadioButtonId selected answer radio button id
+     */
+    private void restoreSelectedAnswer(int selectedRadioButtonId) {
+        // Back to current question
+        counter--;
+        // Show the question
+        nextQuestion();
+        // Restore correction indicator
+        RadioButton radioButton = findViewById(selectedRadioButtonId);
+        if (radioButton.getText().equals(correctAnswers[counter])) {
+            radioButton.setBackgroundResource(R.drawable.shape_correct_answer);
+        } else {
+            radioButton.setBackgroundResource(R.drawable.shape_wrong_answer);
+        }
+        // Increase counter to show next question after clicking next
+        counter++;
+        // Restore the previous button functionality
+        if (counter == questions.length) {
+            confirmNextButton.setText(R.string.finish);
+            confirmNextButton.setOnClickListener(finishClickListener);
+        } else {
+            confirmNextButton.setText(R.string.next);
+            confirmNextButton.setOnClickListener(nextClickListener);
+        }
+    }
 
 }
